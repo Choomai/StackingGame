@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Choomai/StackingGame/issues"
   },
-  "homepage": "https://github.com/Choomai/StackingGame#readme"
+  "homepage": "https://github.com/Choomai/StackingGame#readme",
+  "dependencies": {
+    "socket.io": "^4.8.1"
+  }
 }
