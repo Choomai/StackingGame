@@ -1,6 +1,6 @@
 {
   "name": "stacking-game",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A stacking game based on chinese chess",
   "main": "app.js",
   "scripts": {
