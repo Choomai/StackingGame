@@ -1,0 +1,29 @@
+ul.chessboard {
+    display: flex;
+    gap: 1rem;
+    list-style-type: none;
+    font-family: 'Noto Sans SC', 'Courier New', monospace;
+    font-size: 2rem;
+    font-weight: bold;
+}
+ul.chessboard li {
+    display: inline-block;
+    background-color: antiquewhite;
+    color: white;
+    border: 3px solid;
+    border-radius: 100%;
+    outline: 3px solid antiquewhite;
+    width: 3rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    user-select: none;
+}
+ul.chessboard.black li {
+    border-color: black;
+    color: black;
+}
+ul.chessboard.red li {
+    border-color: red;
+    color: red;
+}
