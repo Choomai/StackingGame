@@ -13,11 +13,11 @@ div.piece {
     border: 3px solid;
     border-radius: 100%;
     outline: 3px solid antiquewhite;
-    width: 3rem;
-    height: 3rem;
-    line-height: 3rem;
+    width: 64px;
+    height: 64px;
+    line-height: 64px;
     text-align: center;
-    user-select: none;
+    user-select: none; 
 }
 div.piece[data-color="black"] {
     border-color: black;

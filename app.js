@@ -49,8 +49,8 @@ const pieces = [
     { name: "solider", color: "black" },
     { name: "solider", color: "black" }
 ]
-
 const rooms = [];
+const players = {}; // { room_id: socket_id }
 
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -61,7 +61,11 @@ function shuffle(array) {
 };
 
 io.on("connection", socket => {
-    console.log(`${socket.id} connected!`);
+    socket.on("options", options => {
+        const { session_id, username } = options;
+        if (session_id && username) players[session_id] = socket.id;
+        console.log(`${socket.id} connected, UUID ${session_id}!`);
+    });
     
     socket.on("get_pieces", () => {
         io.to(options.room)
@@ -83,6 +87,7 @@ io.on("connection", socket => {
             pieces: null
         });
         socket.join(roomId);
+        socket.emit("room_created", roomId);
     });
 
     socket.on("join_room", roomId => {

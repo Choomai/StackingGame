@@ -1,4 +1,3 @@
-const socket = io("ws://localhost:8082");
 socket.emit("options", { players: 4, room: 0 });
 const messages = document.querySelector("ul#messages");
 

@@ -9,14 +9,18 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC+Mono:wght@100..900&display=swap">
     <link rel="stylesheet" href="client/homepage.css">
     <script src="https://cdn.jsdelivr.net/npm/socket.io@4/client-dist/socket.io.min.js"></script>
+    <script src="client/homepage.js" defer></script>
     <title>Stacking Game</title>
 </head>
 <body>
-    <button class="new-game" type="button">New room</button>
-    <div class="line"></div>
-    <form action="/game" method="get">
-        <input type="number" name="id" placeholder="Room ID" required min="0" max="999999">
-        <button type="submit">Join room</button>
-    </form>
+    <h2>Stacking Chinese Chess Game</h2>
+    <div class="container">
+        <button class="new-game" type="button">New room</button>
+        <div class="line"></div>
+        <form action="/game" method="get">
+            <input type="number" name="id" placeholder="Room ID" required min="0" max="999999">
+            <button type="submit">Join room</button>
+        </form>
+    </div>
 </body>
 </html>
