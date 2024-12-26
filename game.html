@@ -10,12 +10,28 @@
     <link rel="stylesheet" href="client/game.css">
     <script src="https://cdn.jsdelivr.net/npm/socket.io@4/client-dist/socket.io.min.js"></script>
     <script src="/client/ws.js"></script>
-    <script src="/client/client.js" defer></script>
+    <script src="/client/game.js" defer></script>
     <title>Stacking Game</title>
 </head>
 <body>
     <button type="button" onclick="shuffle">Attack</button>
     <div class="chessboard"></div>
     <ul id="messages"></ul>
+    <div class="dashboard">
+        <section class="players">
+            <h3>Players</h3>
+            <ul class="players-list"></ul>
+        </section>
+        <section class="global-chat">
+            <h3>Global</h3>
+            <ul></ul>
+            <input type="text" id="global" autocomplete="off"><button type="button" onclick="sendMsg('global')">Send</button>
+        </section>
+        <section class="room-chat">
+            <h3>Room</h3>
+            <ul></ul>
+            <input type="text" id="room" autocomplete="off"><button type="button" onclick="sendMsg('room')">Send</button>
+        </section>
+    </div>
 </body>
 </html>

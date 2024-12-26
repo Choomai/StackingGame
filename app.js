@@ -52,6 +52,9 @@ const pieces = [
 const rooms = [];
 const players = {}; // { room_id: socket_id }
 
+function getPlayerUUID(socketId) {
+    return Object.keys(players).find(key => players[key] === socketId)
+};
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -62,28 +65,26 @@ function shuffle(array) {
 
 io.on("connection", socket => {
     socket.on("options", options => {
-        const { session_id, username } = options;
-        if (session_id && username) players[session_id] = socket.id;
-        console.log(`${socket.id} connected, UUID ${session_id}!`);
+        const { session_id: sessionId, username } = options;
+        if (sessionId && username) players[sessionId] = socket.id;
+        console.log(`${socket.id} connected, UUID ${sessionId}!`);
     });
     
-    socket.on("get_pieces", () => {
-        io.to(options.room)
-        console.log("get_pieces", options);
-        
-        socket.emit("new_piece", { name: "general", color: "black" });
-    });
-    socket.on("new_piece", piece => {
-        console.log("found", piece);
-        io.emit("new_piece", piece);
-    });
+    // socket.on("get_pieces", () => {
+    //     socket.emit("new_piece", { name: "general", color: "black" });
+    // });
+
+    // socket.on("new_piece", piece => {
+    //     console.log("found", piece);
+    //     io.emit("new_piece", piece);
+    // });
 
     socket.on("new_room", () => {
         const roomId = Math.floor(Math.random() * 999999) + 1;
         rooms.push({
             id: roomId,
             timestamp: Date.now(),
-            players: [socket.id],
+            players: new Set(),
             pieces: null
         });
         socket.join(roomId);
@@ -102,13 +103,25 @@ io.on("connection", socket => {
             return;
         };
 
-        room.players.push(socket.id);
+        room.players.add(getPlayerUUID(socket.id));
         socket.join(roomId);
+        io.to(roomId).emit("players", Array.from(room.players));
+        console.log(`${getPlayerUUID(socket.id)} joined room ${roomId}`);
     });
+
+    socket.on("chat", message => {
+        message.room = parseInt(message.room);
+        if (message.type == "global") {
+            io.emit("chat", { type: "global", content: message.content });
+        } else if (message.type == "room") {
+            io.to(parseInt(message.room)).emit("chat", { type: "room", content: message.content });
+        }
+        console.log("Chat message:", message);
+    })
 })
 
 io.on("disconnect", () => {
-    console.log("user disconnected!");
+    console.log(`${socket.id} disconnected, UUID ${getPlayerUUID(socket.id)}!`);
 });
 
 server.listen(8082, () => console.log("Listening on port 8082"));

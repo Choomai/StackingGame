@@ -1,6 +1,5 @@
-socket.emit("options", { players: 4, room: 0 });
 const messages = document.querySelector("ul#messages");
-
+const roomId = new URLSearchParams(window.location.search).get("id");
 const chessmap = {
     "red": {
         "general": "帅",
@@ -20,7 +19,21 @@ const chessmap = {
         "cannon": "炮",
         "soldier": "卒"
     }
-}
+};
+
+socket.emit("join_room", roomId);
+socket.on("players", players => {
+    const playerList = document.querySelector("ul.players-list");
+    playerList.innerHTML = "";
+    players.forEach(player => {
+        const li = document.createElement("li");
+        li.innerText = player;
+        playerList.appendChild(li);
+    });
+})
+
+
+
 
 function newPiece(piece, color) {
     const chessPiece = document.createElement("div");
@@ -37,7 +50,8 @@ function attackHim() {
 
 socket.on("new_piece", piece => {
     messages.appendChild(newPiece(piece.name, piece.color));
-})
+});
+
 
 document.querySelectorAll('.chessboard li').forEach(piece => {
     piece.draggable = true;
@@ -55,4 +69,31 @@ document.querySelectorAll(".chessboard").forEach(board => {
         
         renderPiece();
     });
+});
+
+// Chat handling
+function sendMsg(type) {
+    if (type == "global") {
+        const globalInput = document.querySelector("input#global");
+        const content = globalInput.value;
+        globalInput.value = "";
+        socket.emit("chat", { room: roomId, content, type });
+    } else if (type == "room") {
+        const roomInput = document.querySelector("input#room");
+        const content = roomInput.value;
+        roomInput.value = "";
+        socket.emit("chat", { room: roomId, content, type });
+    }
+}
+socket.on("chat", message => {
+    const li = document.createElement("li");
+    li.innerText = message.content;
+    if (message.type == "global") document.querySelector("section.global-chat ul").appendChild(li);
+    else if (message.type == "room") document.querySelector("section.room-chat ul").appendChild(li);
+});
+document.querySelector("input#global").addEventListener("keypress", e => {
+    if (e.key == "Enter") sendMsg("global");
+});
+document.querySelector("input#room").addEventListener("keypress", e => {
+    if (e.key == "Enter") sendMsg("room");
 });
