@@ -1,4 +1,5 @@
 const socket = io("ws://localhost:8082");
+socket.emit("options", { players: 4, room: 0 });
 const messages = document.querySelector("ul#messages");
 
 const chessmap = {
@@ -23,11 +24,12 @@ const chessmap = {
 }
 
 function newPiece(piece, color) {
-    const li = document.createElement("li");
-    li.dataset.piece = piece;
-    li.dataset.color = color;
-    li.innerText = chessmap[color][piece];
-    return li;
+    const chessPiece = document.createElement("div");
+    chessPiece.classList.add("piece");
+    chessPiece.dataset.piece = piece;
+    chessPiece.dataset.color = color;
+    chessPiece.innerText = chessmap[color][piece];
+    return chessPiece;
 }
 
 function attackHim() {

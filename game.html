@@ -7,16 +7,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC+Mono:wght@100..900&display=swap">
-    <link rel="stylesheet" href="client/homepage.css">
+    <link rel="stylesheet" href="client/style.css">
     <script src="https://cdn.jsdelivr.net/npm/socket.io@4/client-dist/socket.io.min.js"></script>
+    <!-- <script src="client/client.js" defer></script> -->
     <title>Stacking Game</title>
 </head>
 <body>
-    <button class="new-game" type="button">New room</button>
-    <div class="line"></div>
-    <form action="/game" method="get">
-        <input type="number" name="id" placeholder="Room ID" required min="0" max="999999">
-        <button type="submit">Join room</button>
-    </form>
+    <button type="button" onclick="shuffle">Attack</button>
+    <div class="chessboard"></div>
+    <ul id="messages"></ul>
 </body>
 </html>

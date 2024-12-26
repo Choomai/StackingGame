@@ -1,15 +1,15 @@
-ul.chessboard {
+div.chessboard {
     display: flex;
     gap: 1rem;
     list-style-type: none;
+}
+div.piece {
+    display: block;
+    background-color: antiquewhite;
+    color: white;
     font-family: 'Noto Sans SC', 'Courier New', monospace;
     font-size: 2rem;
     font-weight: bold;
-}
-ul.chessboard li {
-    display: inline-block;
-    background-color: antiquewhite;
-    color: white;
     border: 3px solid;
     border-radius: 100%;
     outline: 3px solid antiquewhite;
@@ -19,11 +19,11 @@ ul.chessboard li {
     text-align: center;
     user-select: none;
 }
-ul.chessboard.black li {
+div.piece[data-color="black"] {
     border-color: black;
     color: black;
 }
-ul.chessboard.red li {
+div.piece[data-color="red"] {
     border-color: red;
     color: red;
 }
