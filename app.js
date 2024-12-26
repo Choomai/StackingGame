@@ -12,6 +12,10 @@ app.get("/", (req, res) => {
 })
 app.get("/game", (req, res) => {
     if (!req.query.id) return res.status(400).send("Room ID is required!");
+    const roomId = parseInt(req.query.id);
+
+    if (!isNaN(roomId) || roomId < 0 || roomId > 999999) return res.status(400).send("Invalid room ID!");
+    if (!rooms.find(room => room.id === roomId)) return res.status(404).send("Room not found!");
     res.sendFile(join(__dirname, "game.html"));
 })
 
@@ -93,16 +97,7 @@ io.on("connection", socket => {
 
     socket.on("join_room", roomId => {
         roomId = parseInt(roomId);
-        if (isNaN(roomId) || roomId < 0 || roomId > 999999) {
-            socket.emit("error", "Room number must be between 0 and 999999");
-            return;
-        };
         const room = rooms.find(room => room.id === roomId);
-        if (!room) {
-            socket.emit("error", "Room not found!");
-            return;
-        };
-
         room.players.add(getPlayerUUID(socket.id));
         socket.join(roomId);
         io.to(roomId).emit("players", Array.from(room.players));
