@@ -75,21 +75,24 @@ document.querySelectorAll(".chessboard").forEach(board => {
 function sendMsg(type) {
     if (type == "global") {
         const globalInput = document.querySelector("input#global");
+        if (globalInput.value == "") return;
         const content = globalInput.value;
         globalInput.value = "";
-        socket.emit("chat", { room: roomId, content, type });
+        socket.emit("chat", { username, room: roomId, content, type });
     } else if (type == "room") {
         const roomInput = document.querySelector("input#room");
+        if (roomInput.value == "") return;
         const content = roomInput.value;
         roomInput.value = "";
-        socket.emit("chat", { room: roomId, content, type });
+        socket.emit("chat", { username, room: roomId, content, type });
     }
 }
 socket.on("chat", message => {
     const li = document.createElement("li");
-    li.innerText = message.content;
+    li.innerText = `${message.username}: ${message.content}`;
     if (message.type == "global") document.querySelector("section.global-chat ul").appendChild(li);
     else if (message.type == "room") document.querySelector("section.room-chat ul").appendChild(li);
+    li.parentElement.scrollTop = li.parentElement.scrollHeight;
 });
 document.querySelector("input#global").addEventListener("keypress", e => {
     if (e.key == "Enter") sendMsg("global");

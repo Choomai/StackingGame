@@ -11,11 +11,13 @@ app.get("/", (req, res) => {
     res.sendFile(join(__dirname, "index.html"));
 })
 app.get("/game", (req, res) => {
+    res.type("text/plain");
     if (!req.query.id) return res.status(400).send("Room ID is required!");
     const roomId = parseInt(req.query.id);
 
-    if (!isNaN(roomId) || roomId < 0 || roomId > 999999) return res.status(400).send("Invalid room ID!");
+    if (isNaN(roomId) || roomId < 0 || roomId > 999999) return res.status(400).send("Invalid room ID!");
     if (!rooms.find(room => room.id === roomId)) return res.status(404).send("Room not found!");
+    res.type("text/html");
     res.sendFile(join(__dirname, "game.html"));
 })
 
@@ -107,9 +109,9 @@ io.on("connection", socket => {
     socket.on("chat", message => {
         message.room = parseInt(message.room);
         if (message.type == "global") {
-            io.emit("chat", { type: "global", content: message.content });
+            io.emit("chat", message);
         } else if (message.type == "room") {
-            io.to(parseInt(message.room)).emit("chat", { type: "room", content: message.content });
+            io.to(parseInt(message.room)).emit("chat", message);
         }
         console.log("Chat message:", message);
     })

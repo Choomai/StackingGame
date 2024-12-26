@@ -27,3 +27,11 @@ div.piece[data-color="red"] {
     border-color: red;
     color: red;
 }
+
+div.dashboard > section ul:not(.players-list) {
+    list-style-type: none;
+    padding: 0;
+    border: 1px solid white;
+    height: 30vh;
+    overflow-y: auto;
+}
