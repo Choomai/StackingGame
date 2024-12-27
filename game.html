@@ -15,7 +15,6 @@
 </head>
 <body>
     <div class="chessboard"></div>
-    <ul id="messages"></ul>
     <div class="dashboard">
         <section class="players">
             <h3>Players</h3>
@@ -24,12 +23,12 @@
         <section class="global-chat">
             <h3>Global</h3>
             <ul></ul>
-            <input type="text" id="global" autocomplete="off" maxlength="4096"><button type="button" onclick="sendMsg('global')">Send</button>
+            <div class="input"><input type="text" id="global" autocomplete="off" maxlength="4096"><button type="button" onclick="sendMsg('global')">Send</button></div>
         </section>
         <section class="room-chat">
             <h3>Room</h3>
             <ul></ul>
-            <input type="text" id="room" autocomplete="off" maxlength="4096"><button type="button" onclick="sendMsg('room')">Send</button>
+            <div class="input"><input type="text" id="room" autocomplete="off" maxlength="4096"><button type="button" onclick="sendMsg('room')">Send</button></div>
         </section>
     </div>
 </body>

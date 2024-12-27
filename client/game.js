@@ -1,4 +1,3 @@
-const messages = document.querySelector("ul#messages");
 const roomId = new URLSearchParams(window.location.search).get("id");
 const chessmap = {
     "red": {
@@ -48,9 +47,9 @@ function attackHim() {
     socket.emit("new_piece", { name: "general", color: "red" });
 }
 
-socket.on("new_piece", piece => {
-    messages.appendChild(newPiece(piece.name, piece.color));
-});
+// socket.on("new_piece", piece => {
+//     messages.appendChild(newPiece(piece.name, piece.color));
+// });
 
 
 document.querySelectorAll('.chessboard li').forEach(piece => {
@@ -89,7 +88,7 @@ function sendMsg(type) {
 }
 socket.on("chat", message => {
     const li = document.createElement("li");
-    li.innerText = `${message.username}: ${message.content}`;
+    li.innerHTML = `<b>${message.username}:</b> ${message.content}`;
     if (message.type == "global") document.querySelector("section.global-chat ul").appendChild(li);
     else if (message.type == "room") document.querySelector("section.room-chat ul").appendChild(li);
     li.parentElement.scrollTop = li.parentElement.scrollHeight;
