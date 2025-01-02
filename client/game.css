@@ -8,7 +8,7 @@ body {
     margin: 0;
 }
 
-div.chessboard {
+main {
     display: flex;
     gap: 1rem;
     list-style-type: none;

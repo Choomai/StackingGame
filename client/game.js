@@ -89,6 +89,7 @@ function sendMsg(type) {
 socket.on("chat", message => {
     const li = document.createElement("li");
     li.innerHTML = `<b>${message.username}:</b> ${message.content}`;
+    li.title = message.uuid;
     if (message.type == "global") document.querySelector("section.global-chat ul").appendChild(li);
     else if (message.type == "room") document.querySelector("section.room-chat ul").appendChild(li);
     li.parentElement.scrollTop = li.parentElement.scrollHeight;

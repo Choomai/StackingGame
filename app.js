@@ -107,7 +107,7 @@ io.on("connection", socket => {
     });
 
     socket.on("chat", message => {
-        message.room = parseInt(message.room);
+        message = { ...message, room: parseInt(message.room) ,uuid: getPlayerUUID(socket.id) };
         if (message.type == "global") {
             io.emit("chat", message);
         } else if (message.type == "room") {
