@@ -43,6 +43,10 @@ function newPiece(piece, color) {
     return chessPiece;
 }
 
+function getPiece() {
+    document.querySelector("div.hand").appendChild(newPiece("general", "red"));
+}
+
 function attackHim() {
     socket.emit("new_piece", { name: "general", color: "red" });
 }
